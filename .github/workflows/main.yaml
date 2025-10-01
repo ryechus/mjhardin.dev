@@ -1,7 +1,5 @@
-# This is a basic workflow to help you get started with Actions
 name: Build and Deploy
 
-# Controls when the action will run. Invokes the workflow on push events but only for the main branch
 on:
   workflow_dispatch:
     inputs:
@@ -17,8 +15,6 @@ on:
     - 'public/**'
     - 'astro.config.mjs'
     - 'bun.lockb'
-  # pull_request:
-  #   branches: [ main ]
 
 env:
   
@@ -28,18 +24,8 @@ env:
 permissions:
       id-token: write   # This is required for requesting the JWT
       contents: read    # This is required for actions/checkout
+
 jobs:
-  # AssumeRole:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Git clone the repository
-  #       uses: actions/checkout@v3
-  #     - name: configure aws credentials
-  #       uses: aws-actions/configure-aws-credentials@v1.7.0
-  #       with:
-  #         role-to-assume: arn:aws:iam::188863028714:role/github-actions #change to reflect your IAM role’s ARN
-  #         role-session-name: GitHub_to_AWS_via_FederatedOIDC
-  #         aws-region: ${{ env.AWS_REGION }}
   AstroBuildAndDeploy:
     runs-on: ubuntu-latest
     steps:
@@ -64,4 +50,4 @@ jobs:
           aws s3 sync ./dist s3://mjhardin.dev
       - name: Invalidate Cloudfront
         run: |
-          aws cloudfront create-invalidation --distribution-id E2IRC5FOK364MR --paths "/*"
+          aws cloudfront create-invalidation --distribution-id E2IRC5FOK364MR --paths "/index.html"
