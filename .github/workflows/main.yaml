@@ -4,6 +4,12 @@ name: Build and Deploy
 # Controls when the action will run. Invokes the workflow on push events but only for the main branch
 on:
   workflow_dispatch:
+    inputs:
+    branch:
+      description: 'Select the branch to deploy'
+      required: true
+      default: 'main'
+      type: string
   push:
     branches: [ main ]
     paths:
@@ -39,6 +45,8 @@ jobs:
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch }}
       - name: Build site
         uses: withastro/action@v4
         with:
