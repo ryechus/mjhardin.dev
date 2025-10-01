@@ -1,24 +1,43 @@
 ---
 interface Link {
-  href: string;
-  text: string;
+    href: string;
+    text: string;
 }
 interface Props {
-  title: string;
-  description: string;
-  links?: Link[];
+    title: string;
+    description: string;
+    links?: Link[];
 }
 
-const { title, description, links } = Astro.props
+const { title, description, links } = Astro.props;
 ---
+
 <div class="project">
     <p class="title font-bold lowercase mb-3">{title}</p>
-    <p><Fragment set:html={description}></Fragment></p>
+    <p><Fragment set:html={description} /></p>
     <p class="mt-4 space-x-2">
-    {links && (
-        links.map((data) => (
-            <a class="underline" href={data.href}>{data.text}</a>
-        ))
-    )}
+        {
+            links &&
+                links.map((data) => (
+                    <a class="underline" href={data.href} data-clickout>
+                        {data.text}
+                    </a>
+                ))
+        }
     </p>
 </div>
+
+<script>
+    import { track } from "astrojs-mixpanel/client";
+
+    const elements = document.querySelectorAll('[data-clickout]');
+
+    elements.forEach((element) => {
+        element.addEventListener('click', () => {
+            track("Link Followed", {
+                href: element.getAttribute("href"),
+                text: element.innerHTML,
+            })
+        });
+    });
+</script>
