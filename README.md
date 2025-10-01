@@ -1,4 +1,4 @@
-# Michael Hardin Portfolio
+# MJ's Portfolio
 
 ## 🧞 Commands
 
