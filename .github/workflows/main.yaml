@@ -5,8 +5,13 @@ name: Build and Deploy
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths:
+    - 'src/**'
+    - 'public/**'
+    - 'astro.config.mjs'
+    - 'bun.lockb'
+  # pull_request:
+  #   branches: [ main ]
 
 env:
   
@@ -17,25 +22,34 @@ permissions:
       id-token: write   # This is required for requesting the JWT
       contents: read    # This is required for actions/checkout
 jobs:
-  AssumeRole:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v3
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          role-to-assume: arn:aws:iam::188863028714:role/github-actions #change to reflect your IAM role’s ARN
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
+  # AssumeRole:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Git clone the repository
+  #       uses: actions/checkout@v3
+  #     - name: configure aws credentials
+  #       uses: aws-actions/configure-aws-credentials@v1.7.0
+  #       with:
+  #         role-to-assume: arn:aws:iam::188863028714:role/github-actions #change to reflect your IAM role’s ARN
+  #         role-session-name: GitHub_to_AWS_via_FederatedOIDC
+  #         aws-region: ${{ env.AWS_REGION }}
   AstroBuildAndDeploy:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
-      - name: Install, build, and upload your site output
+      - name: Build site
         uses: withastro/action@v4
         with:
-            path: . # The root location of your Astro project inside the repository. (optional)
-            package-manager: bun@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
-            build-cmd: bun run build # The command to run to build your site. Runs the package build script/task by default. (optional)
+            path: .
+            package-manager: bun@latest
+            build-cmd: bun run build
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: arn:aws:iam::188863028714:role/github-actions #change to reflect your IAM role’s ARN
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Sync with S3
+        run: |
+          aws s3 sync ./dist s3://mjhardin.dev
