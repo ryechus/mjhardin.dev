@@ -58,6 +58,9 @@ const projects = [
 		]
 	}
 ]
+
+const pageTitle = "mjhardin.dev - Mike Hardin - Software Engineer"
+const briefBio = "Hi! I'm Michael, but you can call me Mike or MJ.\nI'm a backend and platform focused software engineer with 10+ years experience designing, building, and maintaining multi-component and distributed systems."
 ---
 <style>
 </style>
@@ -67,6 +70,8 @@ const projects = [
 		<link rel="icon" type="image/svg+xml" href="/emojicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={briefBio} />
 		<title>mjhardin.dev - Mike Hardin - Software Engineer</title>
 	</head>
 	<body>
