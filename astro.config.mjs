@@ -13,7 +13,7 @@ export default defineConfig({
     mixpanel({
       token: "1ef9c686254ddbfa5de83e3d5f07359a",
       config: {
-        track_pageview: true,
+        track_pageview: false,
         persistence: "localStorage",
         batch_requests: true,
         debug: true,
