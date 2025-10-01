@@ -18,7 +18,7 @@ export default defineConfig({
         batch_requests: true,
         debug: true,
       },
-      autoTrack: false, // Enable automatic page view tracking
+      autoTrack: true, // Enable automatic page view tracking
     }),
   ],
   
