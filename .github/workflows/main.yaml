@@ -28,9 +28,11 @@ jobs:
           role-to-assume: arn:aws:iam::188863028714:role/github-actions #change to reflect your IAM role’s ARN
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
-  AstroBuild:
+  AstroBuildAndDeploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
       - name: Install, build, and upload your site output
         uses: withastro/action@v4
         with:
