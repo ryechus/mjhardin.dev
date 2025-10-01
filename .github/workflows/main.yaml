@@ -54,3 +54,6 @@ jobs:
       - name: Sync with S3
         run: |
           aws s3 sync ./dist s3://mjhardin.dev
+      - name: Invalidate Cloudfront
+        run: |
+          aws cloudfront create-invalidation --distribution-id E2IRC5FOK364MR --paths "/*"
