@@ -1,0 +1,24 @@
+---
+interface Link {
+  href: string;
+  text: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  links?: Link[];
+}
+
+const { title, description, links } = Astro.props
+---
+<div class="project">
+    <p class="title font-bold lowercase mb-3">{title}</p>
+    <p><Fragment set:html={description}></Fragment></p>
+    <p class="mt-4 space-x-2">
+    {links && (
+        links.map((data) => (
+            <a class="underline" href={data.href}>{data.text}</a>
+        ))
+    )}
+    </p>
+</div>

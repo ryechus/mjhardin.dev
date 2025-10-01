@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer base {
+  a {
+    @apply underline underline-offset-7 decoration-2 decoration-blue-600;
+  }
+}

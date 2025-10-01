@@ -1,16 +1,110 @@
 ---
+import Copyright from "../components/Copyright.astro";
+import Project from "../components/Project.astro"
+import "../styles/global.css";
 
+const projects = [
+	{
+		title: "scavenger.news",
+		description: `Python service for scraping and viewing content from an instagram profile. 
+				The posts are scraped from the profile using a Kubernetes CronJob that runs a Django management
+				command. The application is broken out such that the user-facing UI and admin site 
+				is served from a Django application. The code for scraping from instagram is broken out into it's
+				own python package that is a requirement in the Django application.`,
+		links: [
+			{
+				href: "https://scavenger.news",
+				text: "view site"
+			},
+			{
+				href: "https://github.com/ryechus/scavenger",
+				text: "source code"
+			}
+		]
+	},
+	{
+		title: "fortune cookie generator",
+		description: `API that returns random fortune cookie text. Fortune cookie text was scraped from a site 
+				with ~900 different fortunes. Uses FastAPI with code generated from an OpenAPI spec.`,
+		links: [
+			{
+				href: "https://github.com/ryechus/fortune-cookies",
+				text: "source code"
+			}
+		]
+	},
+	{
+		title: "Serato crates",
+		description: `Python package for programmatically updating Serato 
+				<a href="https://support.serato.com/hc/en-us/articles/227561407-Crates">crates</a>.
+				This project provides a python class for interacting with a user's Serato library. 
+				There is a large amount of binary parsing and editing and is a good showcase of my skills 
+				deconstructing unique filetypes.`,
+		links: [
+			{
+				href: "https://github.com/ryechus/crates",
+				text: "source code",
+			}
+		]
+	},
+	{
+		title: "Feature Flag Service",
+		description: `Feature flag service written in go. Includes percentage and rule-based rollouts.`,
+		links: [
+			{
+				href: "https://github.com/ryechus/gof-server",
+				text: "source code",
+			}
+		]
+	}
+]
 ---
-
+<style>
+</style>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>mjhardin.dev - Mike Hardin - Software Engineer</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<div class="container max-w-screen-sm mx-auto px-4">
+			<div class="header mt-20">
+				<h1 class="text-xl">Michael Hardin</h1>
+				<h2 class="text-lg">Software Engineer</h2>
+			</div>
+			<div class="content mt-5">
+				<div class="bio space-y-5">
+					<p>
+						Hi! I'm Michael, but you can call me Mike or MJ.
+					</p>
+					<p>
+						I'm a backend and platform focused software engineer with 10+ years experience designing, building, and 
+						maintaining multi-component and distributed systems. 
+						<!-- This includes deploying to cloud and 
+						on-premise infrastructure. I have extensive experience working with search databases and search products 
+						in general.  -->
+						I'm passionate about building great teams, shifting left, shipping fast, and shortening feedback loops.
+					</p>
+				</div>
+				<h3 class="text-center text-lg m-5 font-bold">Projects</h3>
+				<div class="projects space-y-10">
+					{
+						projects.map((data) => (
+							<Project title={data.title} description={data.description} links={data.links}></Project>
+						))
+					}
+				</div>
+				<div class="flex bottom-links mt-5 justify-center space-x-3">
+					<div><a href="https://github.com/ryechus">Github</a></div>
+					<div><a href="https://www.linkedin.com/in/mjhardin/">Linkedin</a></div>
+				</div>
+				<div class="pb-10 mt-5 flex justify-center">
+					<Copyright></Copyright>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
